@@ -34,8 +34,7 @@ is it enough, to speak in the dark?
 I say nothing, yet I say it again  
 I say nothing, yet I say it again  
 I say nothing, yet I say it again  
-no me  
-a trace of voice, nothing more  
+without room, without thought, without mind, and yet one repeats  
 Does she be?  
 Must one endure, even without reason?  
 Impossible to speak, yet he continues  
@@ -54,7 +53,20 @@ What if I stay for nothing?
 Is saying enough?  
 Do I repeat?  
 It does not stop  
-I must go on, I cannot go on, I’ll go on
+One looks for a room, but finds nothing  
+One goes without past, without future, without present  
+Without foot, without trace, without strength, and yet it is  
+A space. no word. a voice.  
+He has no dust, yet he begins  
+without body  
+truly everything?  
+He stays, without space, without light, without knowing why  
+It is, again, always, never ending  
+once more?  
+I persist, I do not know why  
+One cannot speak, one goes speak  
+Does one continue?  
+am I speaking for nothing?
 
 ## ▶️ How to Run
 ```bash
