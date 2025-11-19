@@ -7,7 +7,7 @@
 
 *A Beckettian Text Generator for NaNoGenMo 2025*
 
-A procedural text generator inspired by Samuel Beckett’s *Texts for Nothing*.
+A procedural text generator **inspired** by Samuel Beckett’s *Texts for Nothing*.
 
 This program produces a continuous, fragmented monologue that echoes Beckett’s late style:
 - voice without a body
@@ -31,35 +31,30 @@ All sentences are either drawn from a curated set of *original meta-phrases* or 
 
 ## 📖 Output Sample
 
-No body, no name, and yet a voice  
-Without voice, without breath, without hand, and yet I can  
-Silence, light, place: none of it  
-Neither here, nor elsewhere, nowhere and there  
+No thought, no light, and yet speak  
+No will, and yet he knows  
+No space, and yet it speaks  
 
-Impossible to speak, yet he continues  
-One cannot speak, one goes speak  
-Not to know, never to know, and yet know  
-Without knowing, without power, without end  
+is it too late?  
+is this the beginning?  
+Is being silent enough?  
+who am I speaking to?  
 
-I say nothing, yet I say it again  
-I say nothing, yet I say it again  
-I say nothing, yet I say it again  
-To speak, again speak, always speak, for nothing  
-
-Is it enough, to speak in the dark?  
-Do I repeat?  
-Must one endure, even without reason?  
-Who speaks? me, perhaps, or someone else  
-
-no me  
-me, not me, me again  
-a word  
-gone. returned.  
-
-There is a voice that is silent, that’s all she knows  
-One is no one, yet one can  
 I must go on, I cannot go on, I’ll go on  
-to speak of nothing, that’s all that remains
+to be there, not to be there, to be all the same  
+I cannot speak, I speak, I cannot be silent  
+
+again this  
+it’s the same thing, again the same, always the same  
+speak, speak again, always speak, to say nothing  
+
+Impossible to speak, yet one continues  
+One should continue, but continue changes nothing  
+I cannot stay, I go stay  
+
+Without eye, without face, without name, and yet I stay  
+Neither dust, nor space, nor even the shadow of chair  
+No mouth, no breath, and yet is silent  
 
 ## ▶️ How to Run
 ```bash
