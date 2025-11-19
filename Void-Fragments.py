@@ -27,10 +27,12 @@
 #
 # Source: https://github.com/JoeApocaLips/Void-Fragments
 #
-# Written 16 November 2025
+# version 1.0 Creation 16 November 2025
+#
 from pathlib import Path
 import random as rd
 from time import strftime
+from collections import deque
 
 adverbs = "always,again,never,more,already,perhaps,almost,barely,simply,thus,there,just,often,long,now,here,somewhere,elsewhere,barely,vainly,dumbly".split(',')
 adverb_weights = [4, 4, 3, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
@@ -40,9 +42,12 @@ verbs = "continue,speak,say,be silent,stay,repeat,whisper,end,begin,wait,feel,un
 verbs_weights = [3, 3, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 1, 1, 1]
 print('verbs', len(verbs), len(verbs_weights))
 
-pronouns = 'I she he one it'.split()
 nouns = "body,name,face,place,time,voice,memory,reason,silence,nothing,mind,soul,thought,language,presence,past,future,space,movement,will,strength,purpose,sense,form,trace,shadow,breath,echo,dust,light,sound,eye,hand,foot,chair,room,word".split(',')
 print('nouns', len(nouns))
+
+pronouns = 'I she he one it'.split()
+
+#def cut(s): return sum((ss if len(ss)==1 else [ss[0]+x for x in ss[1:]] for l in s.strip().splitlines() if (ss:=l.split('|')) ), [])
 
 questions = """
 is that already something?
@@ -94,6 +99,12 @@ why go on?
 who is speaking?
 what remains?
 is there anything left to say?
+Is repeating enough?
+Must one mean, even without sense?
+Is being silent enough?
+What if nothing answers?
+Does silence count as speaking?
+Is existing enough?
 """.strip().splitlines()
 print('questions', len(questions))
 
@@ -126,6 +137,13 @@ probably that’s it
 surely nothing
 that’s all.
 nothing remains.
+wordless.
+void.
+again, nothing.
+still speaking.
+no reply.
+already gone.
+barely a sound.
 """.strip().splitlines()
 print('ends', len(ends))
 
@@ -199,6 +217,24 @@ already over
 nothing, again
 speech. void. again.
 before, after, now: the same thing
+I vanish, yet I say
+a silence that speaks, that’s already something
+no echo, and yet it answers
+I am absent, yet present in speech
+to whisper without breath, that’s all there is
+she persists, without reason, without end
+nothing to begin, everything to begin, same thing
+I have no past, yet I repeat
+he stays, without place, without name, without why
+it continues, again, always, never begun
+one repeats to say nothing, that’s already something
+a shadow without light, that’s all there is
+no word, and yet it speaks ceaselessly
+I am not here, I am again there
+to be silent is to speak, but to speak is to fail
+without memory, without trace, and yet I know
+a presence without body, that’s already too much
+it whispers, without ear, without echo, without end
 """.strip().splitlines()
 print('meta_sentences', len(meta_sentences))
 
@@ -282,13 +318,13 @@ meta_B_it = (s for s in meta_sentences_it if '?' in s or 'perhaps' in s)
 
 templates_D = [t for t in templates if any(w in t for w in ('again', 'always', 'never ending', 'begin again', 'same thing'))]
 print('templates_D', len(templates_D))
-meta_D_it = (s for s in meta_sentences_it if any(w in s for w in ('again', 'same', 'never ending', 'begin again', 'same thing')))
-templates_E = [t for t in templates if any(neg in t for neg in ('cannot', 'impossible to', 'not to', 'never to', "no {n}", "without {n}"))]
+meta_D_it = (s for s in meta_sentences_it if any(w in s for w in ('again', 'same', 'never ending', 'begin again', 'go on, not go on', 'always the same', 'again, always')))
+templates_E = [t for t in templates if any(neg in t for neg in ('cannot ', 'impossible to', 'not to ', 'never to ', 'one should ', 'but {p} cannot', 'cannot stop'))]
 print('templates_E', len(templates_E))
-meta_E_it = (s for s in meta_sentences_it if any(w in s for w in ('cannot', 'impossible', 'not to', 'no ', 'without ')))
+meta_E_it = (s for s in meta_sentences_it if any(phrase in s for phrase in ('cannot ', 'impossible to', 'not to ', 'never to ','one should ', 'but one cannot', 'cannot stop', 'cannot be silent', 'cannot speak')))
 templates_F = [t for t in templates if t.startswith(('no ', 'without ', 'neither ', '{n}, {n2}, {n3}:'))]
 print('templates_F', len(templates_F))
-meta_F_it = (s for s in meta_sentences_it if s.startswith(('no ', 'without ', 'neither ')) or ': none of it' in s)
+meta_F_it = (s for s in meta_sentences_it if any(w in s for w in ('no body', 'no name', 'no me', 'no {', 'without ', 'neither ', ': none of it')))
 
 translate = {'adv':(adverbs, adverb_weights), 'p':(pronouns,), 'v':(verbs, verbs_weights), 'n':(nouns,)}
 
@@ -305,8 +341,7 @@ class Resolver(dict):
         while True:
             if trsl or (trsl:=translate.get(k)): 
                 v = v if conj and (v:=self.get(key)) else ((rd.choices(*trsl, k=1)[0] if len(trsl)==2 else rd.choice(trsl[0])))
-            else:
-                v = k
+            else: v = k
             if conj:
                 vv = v.split()
                 verb = vv[0]
@@ -334,27 +369,36 @@ class Resolver(dict):
         self[oldkey] = v
         return v
 
-def generate_sentence(templates_m, metas_it, meta_ratio):
-    if rd.random() < meta_ratio: return next(metas_it)
-    else:
-        t = rd.choice(templates_m)
-        result = t.format_map(Resolver(t))
-        return result[0].upper() + result[1:]
+_seen_cache = deque(maxlen=2) # window sentences
 
-def generate_sentences(templates_m=templates, metas_it=meta_sentences_it, count_min=8, count_max=13, meta_ratio=0.25, question_ratio=0.12):
+def next_unique(it):
+    while True:
+        s = next(it)
+        if s not in _seen_cache:
+            _seen_cache.append(s)
+            return s
+    
+def capitalize(s): return s[0].upper() + s[1:]
+
+def generate_sentence(templates_m, metas_it, meta_ratio):
+    if rd.random() < meta_ratio: return next_unique(metas_it)
+    else: return next_unique(capitalize((t:=rd.choice(templates_m)).format_map(Resolver(t))) for _ in iter(int,42)) # dummy iterator
+
+def generate_sentences(templates_m=templates, metas_it=meta_sentences_it, count_min=8, count_max=12, meta_ratio=0.25, question_ratio=0.12):
+    _seen_cache.clear()
     result = []
     for i in range(rd.randint(count_min, count_max)):
         result.append(generate_sentence(templates_m, metas_it, meta_ratio))
-        if i >= 1 and rd.random() < question_ratio: result.append(next(questions_it))
+        if i >= 1 and rd.random() < question_ratio: result.append(next_unique(questions_it))
     if rd.random() < 0.6:
-        if rd.random() < 0.7: result.append(next(questions_it))
+        if rd.random() < 0.7: result.append(next_unique(questions_it))
         else: result.append(next(ends_it))
     return result
 
 def generate_text(mode):
     match mode: 
         case 'A':  # Mode A: Raw lexical shards — mimics the skeletal openings of Texts 1–5.
-            result = [next(meta_A_it) for _ in range(rd.randint(3, 6))]
+            result = [next_unique(meta_A_it) for _ in range(rd.randint(3, 6))]
             if rd.random() < 0.3: result.append(next(ends_A_it))
         case 'B':  # Mode B: Interrogative vertigo — echoes the obsessive doubt of Texts 6–11.
             result = generate_sentences(templates_B, meta_B_it, 6, 10, 0.3, 0.25)
@@ -372,10 +416,11 @@ def generate_text(mode):
 # normally one text by page
 texts_count = 300 # estimate count
 output = []
-for m, p in [('F',15),('E',15),('D',15),('B',20),('A',10),('C',25)]:
+for m, p in [('F',12),('E',12),('D',12),('B',15),('A',9),('C',40)]:
     mc = (texts_count * p) // 100
     print(m, mc)
     output.extend(generate_text(m) for _ in range(mc))
+    #output.append('*'*25) # debug
 
 thefulltext = '\n\n'.join(output)
 print(f"Total words: {len(thefulltext.split())}")
