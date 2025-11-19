@@ -27,7 +27,7 @@
 #
 # Source: https://github.com/JoeApocaLips/Void-Fragments
 #
-# Written 17–18 November 2025
+# Written 16 November 2025
 from pathlib import Path
 import random as rd
 from time import strftime
@@ -370,7 +370,7 @@ def generate_text(mode):
 
 # Generate full output for NaNoGenMo
 # normally one text by page
-texts_count = 275
+texts_count = 300 # estimate count
 output = []
 for m, p in [('F',15),('E',15),('D',15),('B',20),('A',10),('C',25)]:
     mc = (texts_count * p) // 100
