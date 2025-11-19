@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="logo.jpg" width="400" alt="Void Fragments" />
+</p>
+
 # Void Fragments
 **Smells Like Beckett Spirit.**
 
@@ -27,46 +31,35 @@ All sentences are either drawn from a curated set of *original meta-phrases* or 
 
 ## 📖 Output Sample
 
-no body, no name, and yet a voice  
-me, not me, me again  
-there is a voice, that’s all there is  
-is it enough, to speak in the dark?  
-I say nothing, yet I say it again  
-I say nothing, yet I say it again  
-I say nothing, yet I say it again  
-without room, without thought, without mind, and yet one repeats  
-Does she be?  
-Must one endure, even without reason?  
+No body, no name, and yet a voice  
+Without voice, without breath, without hand, and yet I can  
+Silence, light, place: none of it  
+Neither here, nor elsewhere, nowhere and there  
+
 Impossible to speak, yet he continues  
-to speak of nothing, that’s all that remains  
-who speaks? I speak, she speaks, it speaks  
-before, after, now: the same thing  
-begin, not begin, begin again without having begun  
-a voice without body, that’s already too much  
-I am no one, yet I speak  
-without knowing, without power, without end  
-gone. returned.  
-there, again there, already gone  
-I speak, therefore I am perhaps  
-who speaks? me, perhaps, or someone else  
-What if I stay for nothing?  
-Is saying enough?  
-Do I repeat?  
-It does not stop  
-One looks for a room, but finds nothing  
-One goes without past, without future, without present  
-Without foot, without trace, without strength, and yet it is  
-A space. no word. a voice.  
-He has no dust, yet he begins  
-without body  
-truly everything?  
-He stays, without space, without light, without knowing why  
-It is, again, always, never ending  
-once more?  
-I persist, I do not know why  
 One cannot speak, one goes speak  
-Does one continue?  
-am I speaking for nothing?
+Not to know, never to know, and yet know  
+Without knowing, without power, without end  
+
+I say nothing, yet I say it again  
+I say nothing, yet I say it again  
+I say nothing, yet I say it again  
+To speak, again speak, always speak, for nothing  
+
+Is it enough, to speak in the dark?  
+Do I repeat?  
+Must one endure, even without reason?  
+Who speaks? me, perhaps, or someone else  
+
+no me  
+me, not me, me again  
+a word  
+gone. returned.  
+
+There is a voice that is silent, that’s all she knows  
+One is no one, yet one can  
+I must go on, I cannot go on, I’ll go on  
+to speak of nothing, that’s all that remains
 
 ## ▶️ How to Run
 ```bash
