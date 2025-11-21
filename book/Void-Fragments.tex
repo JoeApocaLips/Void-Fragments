@@ -1,0 +1,130 @@
+\documentclass[$if(fontsize)$$fontsize$,$endif$$if(documentclass)$$documentclass$$else$book$endif$]{$documentclass$}
+$if(classoption)$
+\PassOptionsToClass{$classoption$}{$documentclass$}
+$endif$
+
+\usepackage[paperwidth=15cm, paperheight=15cm, top=1.5cm, bottom=1.5cm, left=1.8cm, right=1.8cm]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{setspace}
+\usepackage{fancyhdr}
+\pagestyle{empty}
+\setstretch{1.2}
+\usepackage{verbatim}
+% \usepackage[none]{hyphenat}
+
+% --- Pour le code source en annexe ---
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{upquote} % pour les apostrophes droites dans le code
+\usepackage[scale=0.85]{inconsolata}
+
+\lstdefinestyle{PythonStyle}{
+    basicstyle=\scriptsize\ttfamily,
+    breaklines=true,
+    breakatwhitespace=false,
+    frame=single,
+    rulecolor=\color{gray!30},
+    backgroundcolor=\color{gray!1},
+    numbers=none,
+    tabsize=4,
+    language=Python,
+    keepspaces=true,
+    showstringspaces=false,
+    columns=flexible,
+    lineskip=-0.3ex
+}
+
+% Pas de retrait en début de paragraphe
+\setlength{\parindent}{0pt}
+% Pas d'espacement vertical entre paragraphes (on contrôle avec \linespread)
+\setlength{\parskip}{0pt}
+% Interligne léger
+\linespread{1.3}
+% Pour que chaque paragraphe = une phrase sur une ligne
+\widowpenalties 1 10000
+\raggedbottom
+
+$if(title)$
+\title{$title$}
+$endif$
+$if(author)$
+\author{$author$}
+$endif$
+$if(date)$
+\date{$date$}
+$endif$
+
+\begin{document}
+
+$if(title)$
+\begin{titlepage}
+\centering
+\vspace*{3cm}
+{\LARGE\bfseries $title$ \par}
+
+\clearpage
+\thispagestyle{empty}
+\null
+\clearpage
+
+\centering
+\vspace*{3cm}
+{\LARGE\bfseries $title$ \par}
+\vspace{0.5cm}
+{\large A murmuring machine \par}
+\vspace{1.5cm}
+{\large $author$ \par}
+\vfill  
+{\large $publisher$ \par}
+\end{titlepage}
+\clearpage
+\newpage
+
+% Page blanche avec copyright + ISBN en bas
+\thispagestyle{empty}
+\vspace*{\fill}
+\begin{center}
+\footnotesize
+\vfill 
+Copyright\textcopyright\ $author$, $date$, $publisher$. All rights reserved.\\
+ISBN: $ISBN$
+\end{center}
+\clearpage
+
+% Préface (page 3)
+\thispagestyle{empty}
+\noindent\textbf{Preface}
+
+\vspace{0.5cm}
+\noindent\footnotesize
+\textit{$title$} is the fruit of a Python-based procedural monologue generator inspired by Samuel Beckett’s \textit{Texts for Nothing}. It is not a program output in the technical sense, but a literary work born from algorithmic composition—an autonomous voice that speaks without body, circles around silence, and persists despite having nothing to say.
+
+The text unfolds through six generative modes: aphoristic shards, obsessive questioning, compulsive repetition, pure negation, catalogues of absence, and murmuring continuities. These modes echo Beckett’s late prose not by imitation, but by resonance—reconstructing his existential cadence through original templates, curated fragments, and stochastic rhythm.
+
+No sentence is copied from Beckett’s published works. Every line is generated from scratch using a system of linguistic constraints, weighted lexicons, and poetic filters. The source code that produced this volume is included in the appendix not as documentation, but as a score: a set of instructions for a voice that cannot stop, even when it has nothing left to utter.
+
+\vspace{1cm}
+\noindent
+— $author$, $date$.
+
+\clearpage
+\thispagestyle{empty}
+\null
+\clearpage
+$endif$
+
+% Corps du texte : chaque élément de la liste = une page
+$body$
+
+% Annexe : code source
+\clearpage
+\begin{center}
+\textbf{Appendix} \\[0.3cm]
+\textit{The voice} \\
+\textit{Source of the void}
+\end{center}
+\vspace{0.5cm}
+\lstinputlisting[style=PythonStyle]{source.py}
+\end{document}

@@ -1,0 +1,11 @@
+title: Void Fragments
+author: Joe ApocaLips
+publisher: The Mass Factory
+date: November 2025
+ISBN: 978-2-XXXXX-XXX-X
+papersize: a4
+fontsize: 11pt
+geometry: "paperwidth=15cm, paperheight=15cm, margin=1.5cm"
+documentclass: book
+classoption: openany,oneside
+toc-depth: 0
