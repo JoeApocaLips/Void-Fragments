@@ -10,14 +10,14 @@
 #
 # A Beckettian Text Generator for NaNoGenMo 2025.
 # This program generates a continuous, fragmented monologue inspired by
-# Samuel Beckett’s “Texts for Nothing” (1–13), structured in six generative modes:
+# Samuel Beckett’s “Texts for Nothing” (1-13), structured in six generative modes:
 #
-#   • Mode A: Raw lexical shards — sparse, aphoristic fragments (Texts 1–5)
-#   • Mode B: Interrogative doubt — obsessive questioning, modal paralysis (Texts 6, 10–11)
-#   • Mode C: Continuous murmuring — recursive, flowing voice (Text 13)
-#   • Mode D: Compulsive repetition — looping phrases, “again the same” (Texts 3, 5, 7)
-#   • Mode E: Pure negation — impossibility, aporia, “cannot” (Texts 2, 4, 8)
-#   • Mode F: Anatomy of absence — catalogues of void (“no body, no name…”) (Texts 1, 6, 9)
+# Mode A: Raw lexical shards — sparse, aphoristic fragments (Texts 1-5)
+# Mode B: Interrogative doubt — obsessive questioning, modal paralysis (Texts 6, 10-11)
+# Mode C: Continuous murmuring — recursive, flowing voice (Text 13)
+# Mode D: Compulsive repetition — looping phrases, “again the same” (Texts 3, 5, 7)
+# Mode E: Pure negation — impossibility, aporia, “cannot” (Texts 2, 4, 8)
+# Mode F: Anatomy of absence — catalogues of void (“no body, no name…”) (Texts 1, 6, 9)
 #
 # The voice speaks without body, circles around silence, repeats without progress,
 # and persists despite having nothing to say—yet it says it anyway.
@@ -33,6 +33,7 @@ from pathlib import Path
 import random as rd
 from time import strftime
 from collections import deque
+import unicodedata
 
 adverbs = "always,again,never,more,already,perhaps,almost,barely,simply,thus,there,just,often,long,now,here,somewhere,elsewhere,barely,vainly,dumbly".split(',')
 adverb_weights = [4, 4, 3, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
@@ -47,7 +48,7 @@ print('nouns', len(nouns))
 
 pronouns = 'I she he one it'.split()
 
-#def cut(s): return sum((ss if len(ss)==1 else [ss[0]+x for x in ss[1:]] for l in s.strip().splitlines() if (ss:=l.split('|')) ), [])
+#def expand(s,sfx=''): return sum((ss+sfx if len(ss)==1 else [ss[0]+x+ for x in ss[1:]] for l in s.strip().splitlines() if (ss:=l.split('|')) ), [])
 
 questions = """
 is that already something?
@@ -235,6 +236,24 @@ to be silent is to speak, but to speak is to fail
 without memory, without trace, and yet I know
 a presence without body, that’s already too much
 it whispers, without ear, without echo, without end
+does she persist, or is it silence?
+what if one speaks for nothing?
+must one continue, even without reason?
+impossible to begin, yet she continues
+one cannot endure, one goes endure
+not to speak, never to speak, and yet speak
+one should persist, but I cannot persist
+does he continue, or is it silence?
+must one speak, even without voice?
+impossible to persist, yet one continues
+one should understand, but understanding changes nothing
+not to be, never to be, and yet be
+to persist is to fail, yet one persists
+knowing changes nothing, yet one knows
+to be is to err, yet one is
+one ought to fall silent, but silence speaks
+one must mean, but meaning has fled
+understanding undoes nothing, yet one understands
 """.strip().splitlines()
 print('meta_sentences', len(meta_sentences))
 
@@ -300,8 +319,6 @@ no mouth, no {n}, and yet {v_conj}
 """.strip().splitlines()
 print('templates', len(templates))
 
-gerondif_map = {'be':'being', 'begin':'beginning', 'can':'to be able'}
-                        
 def cycle(lst):
     while not rd.shuffle(lst): yield from lst
 
@@ -309,24 +326,32 @@ meta_sentences_it = cycle(meta_sentences)
 questions_it = cycle(questions)
 ends_it = cycle(ends)
 
-meta_A_it = (s for s in meta_sentences_it if len(s.split()) <= 8 and not any(w in s for w in ('but', 'and yet', 'cannot', 'I’ll')))
+# Mode A – Raw lexical shards
+meta_A_it = (s for s in meta_sentences_it if len(s.split()) <= 8 and '?' not in s and not any(w in s for w in ('but', 'and yet', 'cannot', "I’ll", 'perhaps', 'must', 'should', 'would', 'try', 'want')))
 ends_A_it = (s for s in ends_it if len(s) < 15)
 
+# Mode B – Interrogative doubt
 templates_B = [t for t in templates if '?' in t or 'if ' in t or 'does ' in t or '{do_conj}' in t]
 print('templates_B', len(templates_B))
-meta_B_it = (s for s in meta_sentences_it if '?' in s or 'perhaps' in s)
+meta_B_it = (s for s in meta_sentences_it if '?' in s)
 
+# Mode D – Compulsive repetition
 templates_D = [t for t in templates if any(w in t for w in ('again', 'always', 'never ending', 'begin again', 'same thing'))]
 print('templates_D', len(templates_D))
-meta_D_it = (s for s in meta_sentences_it if any(w in s for w in ('again', 'same', 'never ending', 'begin again', 'go on, not go on', 'always the same', 'again, always')))
-templates_E = [t for t in templates if any(neg in t for neg in ('cannot ', 'impossible to', 'not to ', 'never to ', 'one should ', 'but {p} cannot', 'cannot stop'))]
+meta_D_it = (s for s in meta_sentences_it if any(w in s for w in ('again','same','never ending','begin again','go on, not go on','always the same','again, always','go on','not to ','to be there, not to be there')))
+
+# Mode E – Pure negation    
+templates_E = [t for t in templates if any(p in t for p in ('cannot ','impossible to','not to ','never to ','one should ')) or ('but' in t and 'cannot' in t)]
 print('templates_E', len(templates_E))
-meta_E_it = (s for s in meta_sentences_it if any(phrase in s for phrase in ('cannot ', 'impossible to', 'not to ', 'never to ','one should ', 'but one cannot', 'cannot stop', 'cannot be silent', 'cannot speak')))
+meta_E_it = (s for s in meta_sentences_it if any(p in s for p in ('cannot ','impossible to','but to speak is to fail','to be silent is to speak, but','I cannot speak, I speak')))
+                                      
+# Mode F – Anatomy of absence
 templates_F = [t for t in templates if t.startswith(('no ', 'without ', 'neither ', '{n}, {n2}, {n3}:'))]
 print('templates_F', len(templates_F))
-meta_F_it = (s for s in meta_sentences_it if any(w in s for w in ('no body', 'no name', 'no me', 'no {', 'without ', 'neither ', ': none of it')))
+meta_F_it = (s for s in meta_sentences_it if s.startswith(('no ','without ','neither ')) or ': none of it' in s)
 
 translate = {'adv':(adverbs, adverb_weights), 'p':(pronouns,), 'v':(verbs, verbs_weights), 'n':(nouns,)}
+gerondif_map = {'be':'being', 'begin':'beginning', 'can':'to be able'}
 
 class Resolver(dict):
     def __init__(self, template):
@@ -339,18 +364,18 @@ class Resolver(dict):
         k, n = (key[:-1], int(key[-1])) if key[-1].isdigit() else (key, None)
         trsl = None 
         while True:
-            if trsl or (trsl:=translate.get(k)): 
-                v = v if conj and (v:=self.get(key)) else ((rd.choices(*trsl, k=1)[0] if len(trsl)==2 else rd.choice(trsl[0])))
+            if trsl or (trsl:=translate.get(k)):
+                v = v if conj and (v:=self.get(key)) else ((rd.choices(*trsl, k=1)[0] if len(trsl)==2 else rd.choice(trsl[0]))) # selector choice with or without weight
             else: v = k
             if conj:
                 vv = v.split()
                 verb = vv[0]
-                if gerondif: verb = gerondif_map.get(verb, (verb[:-1] if verb[-1]=='e' else verb)+'ing')
+                if gerondif: verb = gerondif_map.get(verb, (verb[:-1] if verb[-1]=='e' else verb)+'ing') # gerund
                 else:
                     subject = self.get('p')
                     if not subject: subject = self.__missing__('p') if '?' in self.template else 'it' # create default subject if question
                     if_not_I = subject != 'I'
-                    match verb:
+                    match verb: # conjugator
                         case 'be':
                             verb = 'is' if if_not_I else 'am'
                         case 'do'|'go':
@@ -365,27 +390,24 @@ class Resolver(dict):
                             if if_not_I: verb += 's'
                 vv[0] = verb
                 v = ' '.join(vv)
-            if not n or not trsl or not any(v==self.get(oldkey.replace(str(n),str(i) if i else '')) for i in range(0, n)): break
+            if not n or not trsl or not any(v==self.get(oldkey.replace(str(n),str(i) if i else '')) for i in range(0, n)): break # unique values for xx, xx1, xx2...
         self[oldkey] = v
         return v
 
-_seen_cache = deque(maxlen=2) # window sentences
+_seen_cache = deque(maxlen=4) # window sentences
 
 def next_unique(it):
-    while True:
-        s = next(it)
-        if s not in _seen_cache:
-            _seen_cache.append(s)
-            return s
+    while (s:=next(it)) in _seen_cache: pass
+    _seen_cache.append(s)
+    return s
     
 def capitalize(s): return s[0].upper() + s[1:]
 
 def generate_sentence(templates_m, metas_it, meta_ratio):
     if rd.random() < meta_ratio: return next_unique(metas_it)
-    else: return next_unique(capitalize((t:=rd.choice(templates_m)).format_map(Resolver(t))) for _ in iter(int,42)) # dummy iterator
+    else: return next_unique(iter(lambda:capitalize((t:=rd.choice(templates_m)).format_map(Resolver(t))), 'dummy iterator'))
 
 def generate_sentences(templates_m=templates, metas_it=meta_sentences_it, count_min=8, count_max=12, meta_ratio=0.25, question_ratio=0.12):
-    _seen_cache.clear()
     result = []
     for i in range(rd.randint(count_min, count_max)):
         result.append(generate_sentence(templates_m, metas_it, meta_ratio))
@@ -396,6 +418,7 @@ def generate_sentences(templates_m=templates, metas_it=meta_sentences_it, count_
     return result
 
 def generate_text(mode):
+    _seen_cache.clear()
     match mode: 
         case 'A':  # Mode A: Raw lexical shards — mimics the skeletal openings of Texts 1–5.
             result = [next_unique(meta_A_it) for _ in range(rd.randint(3, 6))]
@@ -414,7 +437,7 @@ def generate_text(mode):
 
 # Generate full output for NaNoGenMo
 # normally one text by page
-texts_count = 300 # estimate count
+texts_count = 150 # estimate count
 output = []
 for m, p in [('F',12),('E',12),('D',12),('B',15),('A',9),('C',40)]:
     mc = (texts_count * p) // 100
@@ -425,3 +448,7 @@ for m, p in [('F',12),('E',12),('D',12),('B',15),('A',9),('C',40)]:
 thefulltext = '\n\n'.join(output)
 print(f"Total words: {len(thefulltext.split())}")
 Path(__file__[:-3]+strftime('-%y%m%d-%H%M%S.txt')).write_text(thefulltext, encoding='utf8')
+
+# for the book
+Path(__file__[:-2]+'md').write_text(''.join(f'\\clearpage\n{t.replace('\n','\n\n')}\n\n' for t in output), encoding='utf8')
+(Path(__file__).parent/'book'/'source.py').write_bytes(unicodedata.normalize('NFKD',Path(__file__).read_text(encoding='utf8')).encode('ascii','ignore'))
