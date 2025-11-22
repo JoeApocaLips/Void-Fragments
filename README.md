@@ -59,3 +59,19 @@ No mouth, no breath, and yet is silent
 ## ▶️ How to Run
 ```bash
 python Void-Fragments.py
+
+Then, copy Void-Fragments.md into the book/ directory and run makebook.bat from within that directory to generate the PDF using Pandoc.
+(Make sure source.py - the ASCII-safe source code - is in the book/ directory.)
+```
+
+## Afterword
+
+*Void Fragments* is the fruit of a Python-based procedural monologue generator inspired by Samuel Beckett’s *Texts for Nothing*. It is not a program output in the technical sense, but a literary work born from algorithmic composition—an autonomous voice that speaks without body, circles around silence, and persists despite having nothing to say.  
+The text unfolds through six generative modes: aphoristic shards, obsessive questioning, compulsive repetition, pure negation, catalogues of absence, and murmuring continuities. These modes echo Beckett’s late prose not by imitation, but by resonance—reconstructing his existential cadence through original templates, curated fragments, and stochastic rhythm.  
+No sentence is copied from Beckett’s published works. Every line is generated from scratch using a system of linguistic constraints, weighted lexicons, and poetic filters. The source code that produced this volume is included in the appendix not as documentation, but as a score: a set of instructions for a voice that cannot stop, even when it has nothing left to utter.  
+— Joe ApocaLips, November 2025.  
+
+##
+<p align="center">
+  <img src="logo.gif" width="400" alt="Void Fragments" />
+</p>
