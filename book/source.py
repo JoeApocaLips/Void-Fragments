@@ -10,20 +10,20 @@
 #
 # A Beckettian Text Generator for NaNoGenMo 2025.
 # This program generates a continuous, fragmented monologue inspired by
-# Samuel Becketts Texts for Nothing (1-13), structured in six generative modes:
+# Samuel Beckett's "Texts for Nothing" (1-13), structured in six generative modes:
 #
-# Mode A: Raw lexical shards  sparse, aphoristic fragments (Texts 1-5)
-# Mode B: Interrogative doubt  obsessive questioning, modal paralysis (Texts 6, 10-11)
-# Mode C: Continuous murmuring  recursive, flowing voice (Text 13)
-# Mode D: Compulsive repetition  looping phrases, again the same (Texts 3, 5, 7)
-# Mode E: Pure negation  impossibility, aporia, cannot (Texts 2, 4, 8)
-# Mode F: Anatomy of absence  catalogues of void (no body, no name...) (Texts 1, 6, 9)
+# Mode A: Raw lexical shards -- sparse, aphoristic fragments (Texts 1-5)
+# Mode B: Interrogative doubt -- obsessive questioning, modal paralysis (Texts 6, 10-11)
+# Mode C: Continuous murmuring -- recursive, flowing voice (Text 13)
+# Mode D: Compulsive repetition -- looping phrases, "again the same" (Texts 3, 5, 7)
+# Mode E: Pure negation -- impossibility, aporia, "cannot" (Texts 2, 4, 8)
+# Mode F: Anatomy of absence -- catalogues of void ("no body, no name...") (Texts 1, 6, 9)
 #
 # The voice speaks without body, circles around silence, repeats without progress,
-# and persists despite having nothing to sayyet it says it anyway.
+# and persists despite having nothing to say--yet it says it anyway.
 #
 # All output is procedurally generated from original templates and meta-phrases.
-# No text from Becketts published works is reproduced verbatim.
+# No text from Beckett's published works is reproduced verbatim.
 #
 # Source: https://github.com/JoeApocaLips/Void-Fragments
 #
@@ -34,6 +34,8 @@ import random as rd
 from time import strftime
 from collections import deque
 import unicodedata
+
+# rd.seed('9798670552141'[::-1]) # MY ISBN
 
 adverbs = "always,again,never,more,already,perhaps,almost,barely,simply,thus,there,just,often,long,now,here,somewhere,elsewhere,barely,vainly,dumbly".split(',')
 adverb_weights = [4, 4, 3, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
@@ -48,213 +50,130 @@ print('nouns', len(nouns))
 
 pronouns = 'I she he one it'.split()
 
-#def expand(s,sfx=''): return sum((ss+sfx if len(ss)==1 else [ss[0]+x+ for x in ss[1:]] for l in s.strip().splitlines() if (ss:=l.split('|')) ), [])
+def expand(s,e=''): return sum(([b[0]+x+e for x in b[1:]] or [b[0]+e] for l in s.strip().splitlines() if (b:=l.split('|'))),[])
 
-questions = """
-is that already something?
-what if thats all?
-and then?
-is that all?
-truly everything?
-nothing else to say?
-is that enough?
-and after that?
-so now?
-is it over?
-has it begun?
-is it the same?
-is it different?
-is it worse?
-is it better?
-is it sufficient?
-is it too much?
-is it too little?
-is it something?
-is it nothing?
-could it be nothing?
-is it surely nothing?
-is it always nothing?
-what am I saying?
-am I speaking again?
-am I speaking for nothing?
-who am I speaking to?
-whats the point?
-what does it mean?
-does it mean anything?
-does it mean nothing?
-is it too late?
-should we stop?
-is this the end?
-is this the beginning?
-is it starting again?
-shall we go on?
-once more?
-always the same?
-really the same?
-after that?
-afterwards?
-is it now?
-is it finished?
-does it suffice?
-why go on?
-who is speaking?
-what remains?
-is there anything left to say?
-Is repeating enough?
-Must one mean, even without sense?
-Is being silent enough?
-What if nothing answers?
-Does silence count as speaking?
-Is existing enough?
-""".strip().splitlines()
+questions = expand("""
+is it too |late|little|much
+always the same
+could it be nothing
+truly everything
+Does silence count as speaking
+is that |all|already something|enough
+and |after that|then
+is this |the beginning|the end
+what's the point
+is it worse
+is it |always nothing|better|different|finished|nothing|now|over|something|starting again|sufficient|surely nothing|the same
+who |am I speaking to|is speaking
+really the same
+should we stop
+What if nothing answers
+what |am I saying|does it mean|if that's all|remains
+is there anything left to say
+am I speaking |again|for nothing
+does it |mean anything|mean nothing|suffice
+shall we go on
+Is |being silent enough|existing enough|repeating enough
+nothing else to say
+has it begun
+Must one mean, even without sense
+so now
+once more
+why go on
+after| that|wards""", '?')
 print('questions', len(questions))
 
-ends = """
-nothing more.
-...
+ends = expand("""
+I go on, always
+no reply.
+another word
+wordless.
+barely a sound.
+again| this|, nothing.
+surely nothing
+still |speaking.|this
+one |more word|word too many
 once again.
 always the same thing.
-maybe yes, maybe no
-again this
-still this
-already heard
-already said
-it begins again
-it never ends
-it ends, perhaps
-thats all there is
-thats all we have
-I stop, no
-I go on, always
-another word
-one more word
-one word too many
 a word, again
-nothing, or almost
+it |begins again|ends, perhaps|never ends
+maybe |that's it|yes, maybe no
+probably that's it
+nothing| more.| remains.|, in truth|, or almost
 almost nothing
-nothing, in truth
-maybe thats it
-probably thats it
-surely nothing
-thats all.
-nothing remains.
-wordless.
+that's all| there is| we have|.
+...
 void.
-again, nothing.
-still speaking.
-no reply.
-already gone.
-barely a sound.
-""".strip().splitlines()
+I stop, no
+already |gone.|heard|said""")
 print('ends', len(ends))
 
-meta_sentences = """
-there is a voice, thats all there is
-a voice speaking into the void, thats already something
-I speak, therefore I am perhaps
-no mouth, and yet it speaks
-to be silent is what Id like, but it speaks
-I say nothing, yet I say it again
-to speak of nothing, thats all that remains
-one must speak, since one can do nothing else
-I am no one, yet I speak
-who speaks? me, perhaps, or someone else
-is it enough, to speak in the dark?
-nothing more, nothing less, just that: a voice
-there, again there, already gone
-not there, and yet there, always there
-I am here, I am not, I am again
-gone, returned, never gone
-I cannot speak, I speak, I cannot be silent
-I say nothing, I say it ceaselessly, I repeat it
-to speak to say nothing, to say to say nothing, to say nothing and to speak
-silence, speech, silence again
-I must go on, I cannot go on, Ill go on
-go on, not go on, go on all the same
-end, not end, begin again
+meta_sentences = expand("""
 begin, not begin, begin again without having begun
-I, she, it, no one
-me, not me, me again
-who speaks? I speak, she speaks, it speaks
-I am not I, but I say I
-nothing to say, nothing to do, nothing to be
-no body, no voice, and yet it speaks
-neither here, nor elsewhere, nowhere and there
-without knowing, without power, without end
-always, again, never
-already, soon, never
-here, there, nowhere
-speak, repeat, be silent
-it speaks, without me, without anyone
-no body, no name, and yet a voice
-speak, speak again, always speak, to say nothing
-to be there, not to be there, to be all the same
-its the same thing, again the same, always the same
-a voice, thats all
-to speak without mouth, thats all that remains
-a voice without body, thats already too much
-I am not, yet I speak again
-nothing to say, and yet I say it
-silence speaks louder than I
-I am silent, yet it continues
-another word, always a word, never the right one
-a trace of voice, nothing more
-I dont want to speak, yet I speak
-to speak to say nothing, thats all that remains
-a voice
-nothing to say
-there. again.
-gone. returned.
-absolute silence
-no me
-it speaks
-naked voice
-without body
-speaking void
-a word
-too late
-never begun
-already over
-nothing, again
-speech. void. again.
-before, after, now: the same thing
-I vanish, yet I say
-a silence that speaks, thats already something
-no echo, and yet it answers
-I am absent, yet present in speech
-to whisper without breath, thats all there is
-she persists, without reason, without end
-nothing to begin, everything to begin, same thing
-I have no past, yet I repeat
 he stays, without place, without name, without why
-it continues, again, always, never begun
-one repeats to say nothing, thats already something
-a shadow without light, thats all there is
-no word, and yet it speaks ceaselessly
-I am not here, I am again there
-to be silent is to speak, but to speak is to fail
-without memory, without trace, and yet I know
-a presence without body, thats already too much
-it whispers, without ear, without echo, without end
-does she persist, or is it silence?
-what if one speaks for nothing?
-must one continue, even without reason?
-impossible to begin, yet she continues
-one cannot endure, one goes endure
-not to speak, never to speak, and yet speak
-one should persist, but I cannot persist
-does he continue, or is it silence?
-must one speak, even without voice?
-impossible to persist, yet one continues
-one should understand, but understanding changes nothing
-not to be, never to be, and yet be
-to persist is to fail, yet one persists
-knowing changes nothing, yet one knows
-to be is to err, yet one is
-one ought to fall silent, but silence speaks
-one must mean, but meaning has fled
+before, after, now: the same thing
+does |he continue, or is it silence?|she persist, or is it silence?
+a silence that speaks, that's already something
+always, again, never
+a shadow without light, that's all there is
+not to |be, never to be, and yet be|speak, never to speak, and yet speak
+a word
+already| over|, soon, never
+I have no past, yet I repeat
 understanding undoes nothing, yet one understands
-""".strip().splitlines()
+is it enough, to speak in the dark?
+not there, and yet there, always there
+another word, always a word, never the right one
+to be silent is |to speak, but to speak is to fail|what I'd like, but it speaks
+I don't want to speak, yet I speak
+no |echo, and yet it answers|me|mouth, and yet it speaks|word, and yet it speaks ceaselessly
+me, not me, me again
+to persist is to fail, yet one persists
+to whisper without breath, that's all there is
+too late
+I am not| I, but I say I| here, I am again there|, yet I speak again
+I say nothing, |I say it ceaselessly, I repeat it|yet I say it again
+there| is a voice, that's all there is|, again there, already gone|. again.
+one must |mean, but meaning has fled|speak, since one can do nothing else
+gone|, returned, never gone|. returned.
+knowing changes nothing, yet one knows
+nothing to say||, and yet I say it|, nothing to do, nothing to be
+I must go on, I cannot go on, I'll go on
+one |cannot endure, one goes endure|ought to fall silent, but silence speaks|repeats to say nothing, that's already something
+go on, not go on, go on all the same
+absolute silence
+no body, no |name, and yet a voice|voice, and yet it speaks
+speech. void. again.
+it speaks||, without me, without anyone
+never begun
+must one |continue, even without reason?|speak, even without voice?
+it continues, again, always, never begun
+nothing| more, nothing less, just that: a voice| to begin, everything to begin, same thing|, again
+it's the same thing, again the same, always the same
+without |body|knowing, without power, without end|memory, without trace, and yet I know
+who speaks? |I speak, she speaks, it speaks|me, perhaps, or someone else
+I am |absent, yet present in speech|here, I am not, I am again|no one, yet I speak|silent, yet it continues
+end, not end, begin again
+a trace of voice, nothing more
+a presence without body, that's already too much
+to be |is to err, yet one is|there, not to be there, to be all the same
+I vanish, yet I say
+naked voice
+a voice|| speaking into the void, that's already something| without body, that's already too much|, that's all
+I, she, it, no one
+it whispers, without ear, without echo, without end
+speaking void
+speak, |repeat, be silent|speak again, always speak, to say nothing
+I speak, therefore I am perhaps
+silence| speaks louder than I|, speech, silence again
+one should |persist, but I cannot persist|understand, but understanding changes nothing
+I cannot speak, I speak, I cannot be silent
+here, there, nowhere
+she persists, without reason, without end
+neither here, nor elsewhere, nowhere and there
+impossible to |begin, yet she continues|persist, yet one continues
+to speak |of nothing, that's all that remains|to say nothing, that's all that remains|to say nothing, to say to say nothing, to say nothing and to speak|without mouth, that's all that remains
+what if one speaks for nothing?""")
 print('meta_sentences', len(meta_sentences))
 
 templates = """
@@ -264,7 +183,7 @@ templates = """
 {p} {do_conj} not know if {p} {v_conj}, but {p} {v_conj}
 one should {v}, but {p} cannot {v}
 it {v_conj}, it {v2_conj}, it does not stop
-there is a voice that {v_conj}, thats all {p} {know_conj}
+there is a voice that {v_conj}, that's all {p} {know_conj}
 what else to do but {v}?
 no {n}, no {n2}, and yet {v}
 {p} {be_conj} no one, yet {p} {v_conj}
@@ -275,7 +194,7 @@ who {v_conj}? {p}, perhaps, or no one
 what if {p} {v_conj} for nothing?
 is {v_ing} enough?
 {adv} there, but does it count?
-{p} {v_conj} to say nothing, thats already something
+{p} {v_conj} to say nothing, that's already something
 {p} {v_conj}, without {n}, without {n2}, without {n3}, without end
 no {n}, never {n2}, always without {n3}
 {adv} here, {adv2} there, {adv3} nowhere, and {p} {v_conj}
@@ -312,7 +231,7 @@ a {n}. no {n2}. a voice.
 {p} {try_conj} to {v}, but {v} is impossible
 one should {v}, but {v} has no meaning
 {p} {have_conj} no {n}, yet {p} {v_conj}
-a voice without {n}, thats all there is
+a voice without {n}, that's all there is
 where is the {n} that {v_conj}? nowhere
 no mouth, no {n}, and yet {v_conj}
 {p} {v_conj}, again, always, never ending, for nothing
@@ -327,7 +246,7 @@ questions_it = cycle(questions)
 ends_it = cycle(ends)
 
 # Mode A  Raw lexical shards
-meta_A_it = (s for s in meta_sentences_it if len(s.split()) <= 8 and '?' not in s and not any(w in s for w in ('but', 'and yet', 'cannot', "Ill", 'perhaps', 'must', 'should', 'would', 'try', 'want')))
+meta_A_it = (s for s in meta_sentences_it if len(s.split()) <= 8 and '?' not in s and not any(w in s for w in ('but', 'and yet', 'cannot', "I'll", 'perhaps', 'must', 'should', 'would', 'try', 'want')))
 ends_A_it = (s for s in ends_it if len(s) < 15)
 
 # Mode B  Interrogative doubt
@@ -420,30 +339,29 @@ def generate_sentences(templates_m=templates, metas_it=meta_sentences_it, count_
 def generate_text(mode):
     _seen_cache.clear()
     match mode: 
-        case 'A':  # Mode A: Raw lexical shards  mimics the skeletal openings of Texts 15.
+        case 'A':  # Mode A: Raw lexical shards -- mimics the skeletal openings of Texts 15.
             result = [next_unique(meta_A_it) for _ in range(rd.randint(3, 6))]
             if rd.random() < 0.3: result.append(next(ends_A_it))
-        case 'B':  # Mode B: Interrogative vertigo  echoes the obsessive doubt of Texts 611.
+        case 'B':  # Mode B: Interrogative vertigo -- echoes the obsessive doubt of Texts 611.
             result = generate_sentences(templates_B, meta_B_it, 6, 10, 0.3, 0.25)
-        case 'D':  # Mode D: Compulsive repetition  captures the looped despair of Texts 3, 5, 7.
+        case 'D':  # Mode D: Compulsive repetition -- captures the looped despair of Texts 3, 5, 7.
             result = generate_sentences(templates_D, meta_D_it, 5, 9, 0.4, 0.05)
-        case 'E':  # Mode E: Pure negation / aporia  inspired by the impossible imperatives in Texts 2, 4, 8.
+        case 'E':  # Mode E: Pure negation / aporia -- inspired by the impossible imperatives in Texts 2, 4, 8.
             result = generate_sentences(templates_E, meta_E_it, 5, 9, 0.3, 0.1)
-        case 'F':  # Mode F: Anatomy of absence  channels the desolate catalogues of Texts 1, 6, 9.
+        case 'F':  # Mode F: Anatomy of absence -- channels the desolate catalogues of Texts 1, 6, 9.
             result = generate_sentences(templates_F, meta_F_it, 4, 8, 0.1, 0.02)
-        case _:    # Mode C: Continuous murmuring  reflects the flowing monologue of late Texts (esp. 1213).
+        case _:    # Mode C: Continuous murmuring -- reflects the flowing monologue of late Texts (esp. 1213).
             result = generate_sentences()
     return '\n'.join(result)
 
 # Generate full output for NaNoGenMo
 # normally one text by page
-texts_count = 150 # estimate count
+texts_count = 850 # for NaNoGenMo # estimate count
 output = []
 for m, p in [('F',12),('E',12),('D',12),('B',15),('A',9),('C',40)]:
     mc = (texts_count * p) // 100
     print(m, mc)
     output.extend(generate_text(m) for _ in range(mc))
-    #output.append('*'*25) # debug
 
 thefulltext = '\n\n'.join(output)
 print(f"Total words: {len(thefulltext.split())}")
@@ -451,4 +369,6 @@ Path(__file__[:-3]+strftime('-%y%m%d-%H%M%S.txt')).write_text(thefulltext, encod
 
 # for the book
 Path(__file__[:-2]+'md').write_text(''.join(f'\\clearpage\n{t.replace('\n','\n\n')}\n\n' for t in output), encoding='utf8')
-(Path(__file__).parent/'book'/'source.py').write_bytes(unicodedata.normalize('NFKD',Path(__file__).read_text(encoding='utf8')).encode('ascii','ignore'))
+# source code utf8 to ascii
+srcode = Path(__file__).read_text(encoding='utf8').replace(''',"'").replace('"','"').replace('"', '"').replace('...', '...').replace('--', '--')
+(Path(__file__).parent/'book'/'source.py').write_text(unicodedata.normalize("NFKD",srcode).encode("ascii","ignore").decode("ascii"),encoding="ascii")

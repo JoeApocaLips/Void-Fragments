@@ -9,3 +9,7 @@ geometry: "paperwidth=15cm, paperheight=15cm, margin=1.5cm"
 documentclass: book
 classoption: openany,oneside
 toc-depth: 0
+totalpages: 152
+backtext: |
+  \textit{Void-Fragments} is the fruit of a procedural monologue generator in Python inspired by Samuel Beckett’s \textit{Texts for Nothing}. It is not a program output in the technical sense, but a literary work born from algorithmic composition—an autonomous voice that speaks without body, circles around silence, and persists despite having nothing to say.
+  
