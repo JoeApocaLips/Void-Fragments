@@ -56,6 +56,66 @@ Without eye, without face, without name, and yet I stay
 Neither dust, nor space, nor even the shadow of chair  
 No mouth, no breath, and yet is silent  
 
+One should whisper, but she cannot whisper  
+Impossible to can, yet she continues  
+Not to speak, never to speak, and yet speak  
+He cannot repeat, he goes repeat  
+One should know, but know changes nothing
+
+To continue or not to continue, makes no difference  
+One should continue, but one cannot  
+He wants to have, but cannot  
+Must one mean, even without sense?
+
+She does not know if she speaks, but she speaks  
+Who continues? one, perhaps, or no one  
+Who continues? it, perhaps, or no one  
+Is understanding enough?
+
+Who speaks? me, perhaps, or someone else  
+does she persist, or is it silence?
+
+I cannot speak, I speak, I cannot be silent  
+She wants to persist, but cannot  
+One should have, but one cannot  
+One wants to feel, but cannot  
+is that enough?
+
+She looks for a word, but finds no word  
+No voice, and yet she stays  
+She speaks, without eye, without place, without knowing why  
+to be silent is to speak, but to speak is to fail  
+does it mean anything?
+
+He speaks without past, without future, without present  
+It stays, it does not know why  
+Is it simply over?  
+No memory, no word, and yet have  
+not there, and yet there, always there
+
+One would like to can, but can is not possible  
+One tries to stay, but stay is impossible  
+One continues to say nothing, that’s already something  
+It looks for a shadow, but finds no shadow  
+without memory, without trace, and yet I know
+I look for a word, but finds no word  
+
+I look for a time, but find nothing  
+I look for a memory, but find nothing  
+There is a voice that waits, that’s all one knows
+
+He is not there, he is somewhere there  
+She is without past, without future, without present  
+He is there, always there, dumbly there  
+and after that?  
+one ought to fall silent, but silence speaks
+
+One continues, without presence, without mind, without knowing why  
+Do I whisper, or is it silence?  
+after that?  
+Somewhere here, already there, dumbly nowhere, and she is  
+It cannot be silent, it goes be silent
+
 ## ▶️ How to Run
 ```bash
 python Void-Fragments.py
