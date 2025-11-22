@@ -59,10 +59,10 @@ No mouth, no breath, and yet is silent
 ## ▶️ How to Run
 ```bash
 python Void-Fragments.py
-
-Then, copy Void-Fragments.md into the book/ directory and run makebook.bat from within that directory to generate the PDF using Pandoc.
-(Make sure source.py - the ASCII-safe source code - is in the book/ directory.)
 ```
+Then, copy Void-Fragments.md into the book/ directory and run makebook.bat from within that directory to generate the PDF using Pandoc.
+(Make sure source.py — the ASCII-safe source code — is in the book/ directory.)
+
 
 ## Afterword
 
