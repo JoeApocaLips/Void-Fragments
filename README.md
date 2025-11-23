@@ -131,6 +131,9 @@ The text unfolds through six generative modes: aphoristic shards, obsessive ques
 No sentence is copied from Beckett’s published works. Every line is generated from scratch using a system of linguistic constraints, weighted lexicons, and poetic filters. The source code that produced this volume is included in the appendix not as documentation, but as a score: a set of instructions for a voice that cannot stop, even when it has nothing left to utter.  
 — Joe ApocaLips, November 2025.  
 
+>“The void does not answer. It listens.”  
+>— Jean Baudrillard, Cool Memories.  
+
 ##
 <p align="center">
   <img src="logo.gif" width="400" alt="Void Fragments" />

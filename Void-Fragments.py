@@ -176,66 +176,39 @@ to speak |of nothing, that’s all that remains|to say nothing, that’s all tha
 what if one speaks for nothing?""")
 print('meta_sentences', len(meta_sentences))
 
-templates = """
-{p} {be_conj} there, {adv} there, {adv2} there
-{p} {be_conj} not there, {p} {be_conj} {adv} there
-{p} cannot {v}, {p} {go_conj} {v}
-{p} {do_conj} not know if {p} {v_conj}, but {p} {v_conj}
-one should {v}, but {p} cannot {v}
-it {v_conj}, it {v2_conj}, it does not stop
-there is a voice that {v_conj}, that’s all {p} {know_conj}
-what else to do but {v}?
-no {n}, no {n2}, and yet {v}
-{p} {be_conj} no one, yet {p} {v_conj}
-{p} {v_conj}, {p} {do_conj} not know why
-{p} {v_conj}, cannot stop
-{p} {v_conj}, again, always, never ending
-who {v_conj}? {p}, perhaps, or no one
-what if {p} {v_conj} for nothing?
-is {v_ing} enough?
-{adv} there, but does it count?
-{p} {v_conj} to say nothing, that’s already something
-{p} {v_conj}, without {n}, without {n2}, without {n3}, without end
-no {n}, never {n2}, always without {n3}
-{adv} here, {adv2} there, {adv3} nowhere, and {p} {v_conj}
-to {v}, again {v}, always {v}, for nothing
-{p} {have_conj} no {n}, yet {p} {v_conj} all the same
-not to {v}, never to {v}, and yet {v}
-one would like to {v}, but {v} is not possible
-nothing to {v}, everything to {v}, same thing
-to {v} or not to {v}, makes no difference
-{do_conj} {p} {v}?
-must one {v}?
-one should {v}, but one cannot
-is it {adv} over?
-{p} {look_conj} for a {n}, but finds no {n}
-without {n}, without {n2}, without {n3}, and yet {p} {v_conj}
-{p} {v_conj}, without {n}, without {n2}, without knowing why
-neither {n}, nor {n2}, nor even the shadow of {n3}
-{adv} here, {adv2} there, {adv3} nowhere
-no {n}, and yet {p} {v_conj}
-impossible to {v}, yet {p} {continue_conj}
-must one {v}, even without reason?
-{do_conj} {p} {v}, or is it silence?
-no time, and yet {p} {v_conj}
-{p} {v_conj} without past, without future, without present
-to be silent is to {v}, but to {v} is to speak
-one should {v}, but {v} changes nothing
-voice. {n}. silence.
-{adv} there. {adv2} gone. {adv3} returned.
-a {n}. no {n2}. a voice.
-{n}, {n2}, {n3}: none of it
-{p} {go_conj} {v}, but {go_conj} nowhere
-{p} {look for_conj} a {n}, but {find_conj} nothing
-{p} {want_conj} to {v}, but cannot
-{p} {try_conj} to {v}, but {v} is impossible
-one should {v}, but {v} has no meaning
-{p} {have_conj} no {n}, yet {p} {v_conj}
+templates = expand("""
 a voice without {n}, that’s all there is
-where is the {n} that {v_conj}? nowhere
+a {n}. no {n2}. a voice.
+impossible to {v}, yet {p} {continue_conj}
+is |it {adv} over?|{v_ing} enough?
+it {v_conj}, it {v2_conj}, it does not stop
+must one |{v}, even without reason?|{v}?
+neither {n}, nor {n2}, nor even the shadow of {n3}
 no mouth, no {n}, and yet {v_conj}
-{p} {v_conj}, again, always, never ending, for nothing
-""".strip().splitlines()
+no time, and yet {p} {v_conj}
+no {n}, |and yet {p} {v_conj}|never {n2}, always without {n3}|no {n2}, and yet {v}
+not to {v}, never to {v}, and yet {v}
+nothing to {v}, everything to {v}, same thing
+one should {v}, but |one cannot|{p} cannot {v}|{v} changes nothing|{v} has no meaning
+one would like to {v}, but {v} is not possible
+there is a voice that {v_conj}, that’s all {p} {know_conj}
+to |be silent is to {v}, but to {v} is to speak|{v} or not to {v}, makes no difference|{v}, again {v}, always {v}, for nothing
+voice. {n}. silence.
+what |else to do but {v}?|if {p} {v_conj} for nothing?
+where is the {n} that {v_conj}? nowhere
+who {v_conj}? {p}, perhaps, or no one
+without {n}, without {n2}, without {n3}, and yet {p} {v_conj}
+{adv} here, |{adv2} there, {adv3} nowhere|{adv2} there, {adv3} nowhere, and {p} {v_conj}
+{adv} there|, but does it count?|. {adv2} gone. {adv3} returned.
+{do_conj} {p} {v}|, or is it silence?|?
+{n}, {n2}, {n3}: none of it
+{p} {be_conj} |no one, yet {p} {v_conj}|not there, {p} {be_conj} {adv} there|there, {adv} there, {adv2} there
+{p} {have_conj} no {n}, yet {p} {v_conj}|| all the same
+{p} {v_conj}, again, always, never ending||, for nothing
+{p} {v_conj}, without {n}, without {n2}, without |knowing why|{n3}, without end
+{p} {v_conj}|, cannot stop| to say nothing, that’s already something| without past, without future, without present|, {p} {do_conj} not know why
+{p} |cannot {v}, {p} {go_conj} {v}|{go_conj} {v}, but {go_conj} nowhere|{look for_conj} a {n}, but {find_conj} nothing|{look_conj} for a {n}, but finds no {n}|{try_conj} to {v}, but {v} is impossible|{want_conj} to {v}, but cannot|{do_conj} not know if {p} {v_conj}, but {p} {v_conj}
+""")
 print('templates', len(templates))
 
 def cycle(lst):
@@ -322,14 +295,11 @@ def next_unique(it):
     
 def capitalize(s): return s[0].upper() + s[1:]
 
-def generate_sentence(templates_m, metas_it, meta_ratio):
-    if rd.random() < meta_ratio: return next_unique(metas_it)
-    else: return next_unique(iter(lambda:capitalize((t:=rd.choice(templates_m)).format_map(Resolver(t))), 'dummy iterator'))
-
 def generate_sentences(templates_m=templates, metas_it=meta_sentences_it, count_min=8, count_max=12, meta_ratio=0.25, question_ratio=0.12):
     result = []
+    templates_it = iter(lambda:capitalize((t:=rd.choice(templates_m)).format_map(Resolver(t))), 'dummy iterator')
     for i in range(rd.randint(count_min, count_max)):
-        result.append(generate_sentence(templates_m, metas_it, meta_ratio))
+        result.append(next_unique(metas_it if rd.random() < meta_ratio else templates_it))
         if i >= 1 and rd.random() < question_ratio: result.append(next_unique(questions_it))
     if rd.random() < 0.6:
         if rd.random() < 0.7: result.append(next_unique(questions_it))
