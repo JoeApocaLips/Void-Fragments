@@ -120,7 +120,7 @@ It cannot be silent, it goes be silent
 ```bash
 python Void-Fragments.py
 ```
-Then, copy Void-Fragments.md into the book/ directory and run makebook.bat from within that directory to generate the PDF using Pandoc.
+Then, copy Void-Fragments.md into the book/ directory and run makebook.bat from within that directory to generate the PDF using Pandoc & MiKTeX.
 (Make sure source.py — the ASCII-safe source code — is in the book/ directory.)
 
 
