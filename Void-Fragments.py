@@ -214,6 +214,11 @@ print('templates', len(templates))
 def cycle(lst):
     while not rd.shuffle(lst): yield from lst
 
+def capitalize(s): return s[0].upper() + s[1:]
+
+def makeiter(templates_lst): return iter(lambda:capitalize((t:=rd.choice(templates_lst)).format_map(Resolver(t))), 'dummy iterator')
+
+templates_it = makeiter(templates)
 meta_sentences_it = cycle(meta_sentences)
 questions_it = cycle(questions)
 ends_it = cycle(ends)
@@ -226,21 +231,25 @@ ends_A_it = (s for s in ends_it if len(s) < 15)
 templates_B = [t for t in templates if '?' in t or 'if ' in t or 'does ' in t or '{do_conj}' in t]
 print('templates_B', len(templates_B))
 meta_B_it = (s for s in meta_sentences_it if '?' in s)
+templates_B_it = makeiter(templates_B)
 
 # Mode D – Compulsive repetition
 templates_D = [t for t in templates if any(w in t for w in ('again', 'always', 'never ending', 'begin again', 'same thing'))]
 print('templates_D', len(templates_D))
 meta_D_it = (s for s in meta_sentences_it if any(w in s for w in ('again','same','never ending','begin again','go on, not go on','always the same','again, always','go on','not to ','to be there, not to be there')))
+templates_D_it = makeiter(templates_D)
 
 # Mode E – Pure negation    
 templates_E = [t for t in templates if any(p in t for p in ('cannot ','impossible to','not to ','never to ','one should ')) or ('but' in t and 'cannot' in t)]
 print('templates_E', len(templates_E))
 meta_E_it = (s for s in meta_sentences_it if any(p in s for p in ('cannot ','impossible to','but to speak is to fail','to be silent is to speak, but','I cannot speak, I speak')))
+templates_E_it = makeiter(templates_E)
                                       
 # Mode F – Anatomy of absence
 templates_F = [t for t in templates if t.startswith(('no ', 'without ', 'neither ', '{n}, {n2}, {n3}:'))]
 print('templates_F', len(templates_F))
 meta_F_it = (s for s in meta_sentences_it if s.startswith(('no ','without ','neither ')) or ': none of it' in s)
+templates_F_it = makeiter(templates_F)
 
 translate = {'adv':(adverbs, adverb_weights), 'p':(pronouns,), 'v':(verbs, verbs_weights), 'n':(nouns,)}
 gerondif_map = {'be':'being', 'begin':'beginning', 'can':'to be able'}
@@ -293,13 +302,10 @@ def next_unique(it):
     _seen_cache.append(s)
     return s
     
-def capitalize(s): return s[0].upper() + s[1:]
-
-def generate_sentences(templates_m=templates, metas_it=meta_sentences_it, count_min=8, count_max=12, meta_ratio=0.25, question_ratio=0.12):
+def generate_sentences(templs_it=templates_it, metas_it=meta_sentences_it, count_min=8, count_max=12, meta_ratio=0.25, question_ratio=0.12):
     result = []
-    templates_it = iter(lambda:capitalize((t:=rd.choice(templates_m)).format_map(Resolver(t))), 'dummy iterator')
     for i in range(rd.randint(count_min, count_max)):
-        result.append(next_unique(metas_it if rd.random() < meta_ratio else templates_it))
+        result.append(next_unique(metas_it if rd.random() < meta_ratio else templs_it))
         if i >= 1 and rd.random() < question_ratio: result.append(next_unique(questions_it))
     if rd.random() < 0.6:
         if rd.random() < 0.7: result.append(next_unique(questions_it))
@@ -313,13 +319,13 @@ def generate_text(mode):
             result = [next_unique(meta_A_it) for _ in range(rd.randint(3, 6))]
             if rd.random() < 0.3: result.append(next(ends_A_it))
         case 'B':  # Mode B: Interrogative vertigo — echoes the obsessive doubt of Texts 6–11.
-            result = generate_sentences(templates_B, meta_B_it, 6, 10, 0.3, 0.25)
+            result = generate_sentences(templates_B_it, meta_B_it, 6, 10, 0.3, 0.25)
         case 'D':  # Mode D: Compulsive repetition — captures the looped despair of Texts 3, 5, 7.
-            result = generate_sentences(templates_D, meta_D_it, 5, 9, 0.4, 0.05)
+            result = generate_sentences(templates_D_it, meta_D_it, 5, 9, 0.4, 0.05)
         case 'E':  # Mode E: Pure negation / aporia — inspired by the impossible imperatives in Texts 2, 4, 8.
-            result = generate_sentences(templates_E, meta_E_it, 5, 9, 0.3, 0.1)
+            result = generate_sentences(templates_E_it, meta_E_it, 5, 9, 0.3, 0.1)
         case 'F':  # Mode F: Anatomy of absence — channels the desolate catalogues of Texts 1, 6, 9.
-            result = generate_sentences(templates_F, meta_F_it, 4, 8, 0.1, 0.02)
+            result = generate_sentences(templates_F_it, meta_F_it, 4, 8, 0.1, 0.02)
         case _:    # Mode C: Continuous murmuring — reflects the flowing monologue of late Texts (esp. 12–13).
             result = generate_sentences()
     return '\n'.join(result)
